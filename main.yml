@@ -1,0 +1,19 @@
+- hosts: all
+  vars_files:
+          - "{{ ansible_facts['distribution'] }}:{{ ansible_facts['distribution_major_version'] }}.yml"
+
+  tasks:
+  - name: "Install Web Server Software"
+    package:
+      name: "{{ package_name }}"
+      state: present
+
+  - name: "Copy Web Page File"
+    template:
+      dest: "{{ loc }}"
+      src: index.html
+
+  - name: "Start the service"
+    service:
+      name: "{{ service_name }}"
+      state: started
